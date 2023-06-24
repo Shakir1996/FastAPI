@@ -23,9 +23,11 @@ async def read_item(request: Request):
     return templates.TemplateResponse("index.html", {"request": request, "newDocs": newDocs})
 
 
-@note.post("/", response_class=HTMLResponse)
+@note.post("/")
 async def create_item(request: Request):
     form = await request.form()
-    note = conn.notes.notes.insert_one(dict(form))
+    formDict = dict(form)
+    formDict["important"] = True if formDict.get("important") == "on" else False
+    note = conn.notes.notes.insert_one(formDict)
     return {"Success":True}
     pass
