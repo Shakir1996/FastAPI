@@ -1,9 +1,7 @@
-from fastapi import APIRouter, FastAPI, Request
+from fastapi import APIRouter, Request
 from config.db import conn
-from schemas.note import noteEntity, notesEntity
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
-from models.note import Note
 
 note = APIRouter()
 templates = Jinja2Templates(directory="templates")  # Taken from FastAPI official website
@@ -29,5 +27,5 @@ async def create_item(request: Request):
     formDict = dict(form)
     formDict["important"] = True if formDict.get("important") == "on" else False
     note = conn.notes.notes.insert_one(formDict)
-    return {"Success":True}
-    pass
+    success = str('Your data is added to admins Mongo Database')
+    return success
